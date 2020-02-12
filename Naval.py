@@ -146,71 +146,73 @@ def createPlayerGrid(): #Fabrication de la grille de joueur
                 nbrChoix = 0
                 if input_J < 0 or input_J > 7:
                     print("\nChoix invalide ! (0 -> 7)")
-                    continue
                 else:
                     try: #On fait choisir un premier point avec X/Y puis on détermine les coordonnées possibles du deuxième point (minimum 2 | maximum 4)
                         input_I = int(input("Ligne (0 -> 7) : "))
-                        print("\nChoix possibles :")
-                        if (input_J + (tailleNavire - 1)) < 8:
-                            PtsPossible[nbrChoix][0] = input_I
-                            PtsPossible[nbrChoix][1] = (input_J + (tailleNavire - 1))
-                            nbrChoix += 1
-                        if (input_I + (tailleNavire - 1)) < 8:
-                            PtsPossible[nbrChoix][0] = (input_I + (tailleNavire - 1))
-                            PtsPossible[nbrChoix][1] = input_J
-                            nbrChoix += 1
-                        if (input_J - (tailleNavire - 1)) >= 0:
-                            PtsPossible[nbrChoix][0] = input_I
-                            PtsPossible[nbrChoix][1] = (input_J - (tailleNavire - 1))
-                            nbrChoix += 1
-                        if (input_I - (tailleNavire - 1)) >= 0:
-                            PtsPossible[nbrChoix][0] = (input_I - (tailleNavire - 1))
-                            PtsPossible[nbrChoix][1] = input_J
-                            nbrChoix += 1
-                        for x in range(nbrChoix):
-                            print(str(x + 1) + ") (" + str(PtsPossible[x][1]) + "," + str(PtsPossible[x][0]) + ")")
-                        try: #On fait choisir à l'utilisateur l'un des points calculés à partir du premier
-                            inputUtilisateur = int(input("\n: "))
-                            if inputUtilisateur < 1 or inputUtilisateur > nbrChoix:
-                                print("\nChoix invalide ! (0 -> " + str(nbrChoix) + ")")
-                                continue
-                            else: # Placement sur grille avec conditions
-                                inputUtilisateur -= 1
-                                ok = 1
-                                if PtsPossible[inputUtilisateur][1] == input_J:
-                                    for x1 in range(tailleNavire): #Check si pas d'obstacle là où on veut placer le navire
-                                        if PtsPossible[inputUtilisateur][0] > input_I:
-                                            if GrilleJoueur[input_I + x1][input_J] != 0:
-                                                ok = 0
-                                        else:
-                                            if GrilleJoueur[input_I - x1][input_J] != 0:
-                                                ok = 0
-                                    if ok == 1:
-                                        for x1 in range(tailleNavire): #On place le navire
+                        if input_I < 0 or input_I > 7:
+                            print("\nChoix invalide ! (0 -> 7)")
+                        else:
+                            print("\nChoix possibles :")
+                            if (input_J + (tailleNavire - 1)) < 8:
+                                PtsPossible[nbrChoix][0] = input_I
+                                PtsPossible[nbrChoix][1] = (input_J + (tailleNavire - 1))
+                                nbrChoix += 1
+                            if (input_I + (tailleNavire - 1)) < 8:
+                                PtsPossible[nbrChoix][0] = (input_I + (tailleNavire - 1))
+                                PtsPossible[nbrChoix][1] = input_J
+                                nbrChoix += 1
+                            if (input_J - (tailleNavire - 1)) >= 0:
+                                PtsPossible[nbrChoix][0] = input_I
+                                PtsPossible[nbrChoix][1] = (input_J - (tailleNavire - 1))
+                                nbrChoix += 1
+                            if (input_I - (tailleNavire - 1)) >= 0:
+                                PtsPossible[nbrChoix][0] = (input_I - (tailleNavire - 1))
+                                PtsPossible[nbrChoix][1] = input_J
+                                nbrChoix += 1
+                            for x in range(nbrChoix):
+                                print(str(x + 1) + ") (" + str(PtsPossible[x][1]) + "," + str(PtsPossible[x][0]) + ")")
+                            try: #On fait choisir à l'utilisateur l'un des points calculés à partir du premier
+                                inputUtilisateur = int(input("\n: "))
+                                if inputUtilisateur < 1 or inputUtilisateur > nbrChoix:
+                                    print("\nChoix invalide ! (1 -> " + str(nbrChoix) + ")")
+                                    continue
+                                else: # Placement sur grille avec conditions
+                                    inputUtilisateur -= 1
+                                    ok = 1
+                                    if PtsPossible[inputUtilisateur][1] == input_J:
+                                        for x1 in range(tailleNavire): #Check si pas d'obstacle là où on veut placer le navire
                                             if PtsPossible[inputUtilisateur][0] > input_I:
-                                                GrilleJoueur[input_I + x1][input_J] = nombreNavires + 1
+                                                if GrilleJoueur[input_I + x1][input_J] != 0:
+                                                    ok = 0
                                             else:
-                                                GrilleJoueur[input_I - x1][input_J] = nombreNavires + 1
-                                else:
-                                    for x2 in range(tailleNavire):
-                                        if PtsPossible[inputUtilisateur][1] > input_J:
-                                            if GrilleJoueur[input_I][input_J + x2] != 0:
-                                                ok = 0
-                                        else:
-                                            if GrilleJoueur[input_I][input_J - x2] != 0:
-                                                ok = 0
-                                    if ok == 1:
+                                                if GrilleJoueur[input_I - x1][input_J] != 0:
+                                                    ok = 0
+                                        if ok == 1:
+                                            for x1 in range(tailleNavire): #On place le navire
+                                                if PtsPossible[inputUtilisateur][0] > input_I:
+                                                    GrilleJoueur[input_I + x1][input_J] = nombreNavires + 1
+                                                else:
+                                                    GrilleJoueur[input_I - x1][input_J] = nombreNavires + 1
+                                    else:
                                         for x2 in range(tailleNavire):
                                             if PtsPossible[inputUtilisateur][1] > input_J:
-                                                GrilleJoueur[input_I][input_J + x2] = nombreNavires + 1
+                                                if GrilleJoueur[input_I][input_J + x2] != 0:
+                                                    ok = 0
                                             else:
-                                                GrilleJoueur[input_I][input_J - x2] = nombreNavires + 1
-                            if ok == 0:
-                                print("\nImpossible a placer, un autre navire est deja present !\n")
+                                                if GrilleJoueur[input_I][input_J - x2] != 0:
+                                                    ok = 0
+                                        if ok == 1:
+                                            for x2 in range(tailleNavire):
+                                                if PtsPossible[inputUtilisateur][1] > input_J:
+                                                    GrilleJoueur[input_I][input_J + x2] = nombreNavires + 1
+                                                else:
+                                                    GrilleJoueur[input_I][input_J - x2] = nombreNavires + 1
+                                if ok == 0:
+                                    print("\nImpossible a placer, un autre navire est deja present !\n")
+                                    continue
+                            except:
+                                print("Choix inexistant, recommencez avec un nombre entre 1 et " + str(nbrChoix) + " (compris).")
                                 continue
-                        except:
-                            print("Choix inexistant, recommencez avec un nombre entre 1 et " + str(nbrChoix) + " (compris).")
-                            continue
                     except:
                         print("Choix inexistant, recommencez avec un nombre entre 0 et 7 (compris).")
                         continue
@@ -315,24 +317,47 @@ def gameLoop(mode): #Boucle de jeu
         print("\nCreation de la grille du joueur 2 :\n")
         GrilleJoueur_2 = [[0] * 8 for z in range(8)] #Grille du joueur 2
         GrilleJoueur_2 = createPlayerGrid()
-    playerWin = 0
-    botWin = 0
     clear()
     print("\n\n\n")
-    while playerWin == 0 and botWin == 0: #Boucle de jeu, fin lorsque l'un des deux joueurs n'a plus de navires.
+    if mode == 1:
+        playerWin = 0
+        botWin = 0
+        while playerWin == 0 and botWin == 0: #Boucle de jeu, fin lorsque l'un des deux joueurs n'a plus de navires.
+            affichageGrille(GrilleOrdi, 0) #Affichage de la grille du bot avec brouillard de guerre
+            affichageGrille(GrilleJoueur_1, 1) #Affichage de la grille du joueur avec toutes les informations
+            GrilleOrdi = playerPlay(GrilleOrdi) #Modification de la grille du bot en fonction du coup joué par le joueur
+            playerWin = finDeJeu(GrilleOrdi) #Test pour voir si le joueur a gagné
+            GrilleJoueur_1 = botPlay(GrilleJoueur_1) #Modification de la grille du bot en fonction du coup joué par le bot
+            botWin = finDeJeu(GrilleJoueur_1) #Test pour voir si le bot a gagné
+        if playerWin == 1: #Si le joueur a gagné
+            print("\nVous avez remporte la bataille !\n")
+        else: #Sinon c'est donc le bot qui a gagné
+            print("\nVouz avez perdu !\n")
         affichageGrille(GrilleOrdi, 0)
         affichageGrille(GrilleJoueur_1, 1)
-        GrilleOrdi = playerPlay(GrilleOrdi)
-        playerWin = finDeJeu(GrilleOrdi)
-        GrilleJoueur_1 = botPlay(GrilleJoueur_1)
-        botWin = finDeJeu(GrilleJoueur_1)
-    if playerWin == 1:
-        print("\nVous avez remporte la bataille !\n")
     else:
-        print("\nVouz avez perdu !\n")
-    affichageGrille(GrilleOrdi, 0)
-    affichageGrille(GrilleJoueur_1, 1)
-
+        player1Win = 0
+        player2Win = 0
+        while player1Win == 0 and player2Win == 0:
+            affichageGrille(GrilleJoueur_2, 0)
+            affichageGrille(GrilleJoueur_1, 1)
+            print("   [)=-=-=-=(] Joueur  1 [)=-=-=-=(]")
+            GrilleJoueur_2 = playerPlay(GrilleJoueur_2)
+            player1Win = finDeJeu(GrilleJoueur_2)
+            affichageGrille(GrilleJoueur_1, 0)
+            affichageGrille(GrilleJoueur_2, 1)
+            print("   [)=-=-=-=(] Joueur  2 [)=-=-=-=(]")
+            GrilleJoueur_1 = playerPlay(GrilleJoueur_1)
+            player2Win = finDeJeu(GrilleJoueur_1)
+        if player1Win == 1: #Si le joueur 1 a gagné
+            print("\nLe joueur 1 a remporte la bataille !\n")
+        else: #Sinon c'est donc le joueur 2 qui a gagné
+            print("\nLe joueur 2 a remporte la bataille !\n")
+        print("\n   [)=-=-=-=(] Joueur  1 [)=-=-=-=(]\n")
+        affichageGrille(GrilleJoueur_1, 1)
+        print("\n   [)=-=-=-=(] Joueur  2 [)=-=-=-=(]\n")
+        affichageGrille(GrilleJoueur_2, 1)
+            
 def Menu():
     clear()
     try:
