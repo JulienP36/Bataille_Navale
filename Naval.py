@@ -4,28 +4,28 @@ import random
 import time
 import traceback
 
-''' #========# EXEMPLE #========#
-I\J 0   1   2   3   4   5   6   7
-  ┌───┬───┬───┬───┬───┬───┬───┬───┐
-0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-1 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-2 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-3 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-4 │ 0 │ 0 │ 0 │[3]│[3]│[3]│ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-5 │ 0 │[2]│ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-6 │ 0 │[2]│ 0 │[4]│[4]│[4]│[4]│ 0 │
-  ├───┼───┼───┼───┼───┼───┼───┼───┤
-7 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
-  └───┴───┴───┴───┴───┴───┴───┴───┘
+'''#==========# EXEMPLE #==========#
+I\J  0   1   2   3   4   5   6   7
+   ┌───┬───┬───┬───┬───┬───┬───┬───┐
+ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 1 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 2 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 3 │ 0 │ 0 │[3]│ 0 │ 0 │ 0 │ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 4 │ 0 │ 0 │ 0 │[3]│[3]│[3]│ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 5 │ 0 │[2]│ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 6 │ 0 │[2]│ 0 │[4]│[4]│[4]│[4]│ 0 │
+   ├───┼───┼───┼───┼───┼───┼───┼───┤
+ 7 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │ 0 │
+   └───┴───┴───┴───┴───┴───┴───┴───┘
 '''
 
-def clear():
+def clear(): #Fonction juste pour facilement effacer la console et avoir un affichage propre
     os.system('cls' if os.name=='nt' else 'clear')
 
 def affichageGrille(Grille, mode):
@@ -40,20 +40,20 @@ def affichageGrille(Grille, mode):
         print("   |---+---+---+---+---+---+---+---|")
         for i in range(8):
             for j in range(8):
-                if Grille[i][j] == 0:
+                if Grille[i][j] == 0: #Zone vide
                     ligne = ligne + "|   "
-                elif Grille[i][j] == 5:
+                elif Grille[i][j] == 5: #Zone vide déjà touchée
                     ligne = ligne + "| X "
-                elif Grille[i][j] >= 6:
+                elif Grille[i][j] >= 6: #Partie de navire déjà touchée
                     ligne = ligne + "|[X]"
-                else:
+                else: #Partie de navire
                     ligne = ligne + "|[" + str(Grille[i][j]) + "]"
             ligne = " " + str(i) + " " + ligne + "|"
             print(ligne)
             if i < 8:
                 print("   |---+---+---+---+---+---+---+---|")
             ligne = ""
-    else: #Mode avec navires non révélés
+    else: #Mode avec navires non révélés (brouillard de guerre)
         print("     0   1   2   3   4   5   6   7")
         print("   |---+---+---+---+---+---+---+---|")
         for i in range(8):
@@ -281,7 +281,7 @@ def playerPlay(GrilleOrdi): #Fonction pour faire jouer le joueur Humain
 
 def botPlay(Grille):
     ok = 0
-    while ok == 0:
+    while ok == 0: #Boucle pour empêcher le bot de jouer un coup à un endroit déjà tenté
         ok = 1
         pos_i = random.randint(0,7)
         pos_j = random.randint(0,7)
@@ -322,7 +322,7 @@ def gameLoop(mode): #Boucle de jeu
     if mode == 1:
         playerWin = 0
         botWin = 0
-        while playerWin == 0 and botWin == 0: #Boucle de jeu, fin lorsque l'un des deux joueurs n'a plus de navires.
+        while playerWin == 0 and botWin == 0: #Boucle de jeu, fin lorsque le joueur ou le bot n'a plus de navires.
             affichageGrille(GrilleOrdi, 0) #Affichage de la grille du bot avec brouillard de guerre
             affichageGrille(GrilleJoueur_1, 1) #Affichage de la grille du joueur avec toutes les informations
             GrilleOrdi = playerPlay(GrilleOrdi) #Modification de la grille du bot en fonction du coup joué par le joueur
@@ -338,17 +338,19 @@ def gameLoop(mode): #Boucle de jeu
     else:
         player1Win = 0
         player2Win = 0
-        while player1Win == 0 and player2Win == 0:
-            affichageGrille(GrilleJoueur_2, 0)
-            affichageGrille(GrilleJoueur_1, 1)
+        while player1Win == 0 and player2Win == 0: #Boucle de jeu, fin lorsque l'un des deux joueurs n'a plus de navires.
+            affichageGrille(GrilleJoueur_2, 0) #Affichage de la grille du joueur 2 avec brouillard de guerre
+            affichageGrille(GrilleJoueur_1, 1) #Affichage de la grille du joueur 1 avec toutes les informations
             print("   [)=-=-=-=(] Joueur  1 [)=-=-=-=(]")
-            GrilleJoueur_2 = playerPlay(GrilleJoueur_2)
-            player1Win = finDeJeu(GrilleJoueur_2)
-            affichageGrille(GrilleJoueur_1, 0)
-            affichageGrille(GrilleJoueur_2, 1)
+            GrilleJoueur_2 = playerPlay(GrilleJoueur_2) #Le Joueur 1 joue
+            player1Win = finDeJeu(GrilleJoueur_2) #Test pour voir si le joueur 1 a gagné
+            if player1Win == 1: #Si le joueur 1 gagne, on ne laisse pas le joueur 2 faire un dernier coup pour rien
+                break
+            affichageGrille(GrilleJoueur_1, 0) #Affichage de la grille du joueur 1 avec brouillard de guerre
+            affichageGrille(GrilleJoueur_2, 1) #Affichage de la grille du joueur 2 avec toutes les informations
             print("   [)=-=-=-=(] Joueur  2 [)=-=-=-=(]")
-            GrilleJoueur_1 = playerPlay(GrilleJoueur_1)
-            player2Win = finDeJeu(GrilleJoueur_1)
+            GrilleJoueur_1 = playerPlay(GrilleJoueur_1) #Le joueur 2 joue
+            player2Win = finDeJeu(GrilleJoueur_1) #Test pour voir si le joueur 2 a gagné
         if player1Win == 1: #Si le joueur 1 a gagné
             print("\nLe joueur 1 a remporte la bataille !\n")
         else: #Sinon c'est donc le joueur 2 qui a gagné
